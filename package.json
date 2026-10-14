@@ -1,0 +1,38 @@
+{
+  "name": "subagent-mail",
+  "version": "0.1.0",
+  "description": "SDK TypeScript de Subagent Mail : des boîtes mail pour agents IA, avec des règles d'envoi appliquées par le serveur.",
+  "license": "MIT",
+  "author": "Subagent <contact@subagent.fr> (https://subagent.fr)",
+  "homepage": "https://subagent.fr",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subagent-fr/subagent-node.git"
+  },
+  "bugs": "https://github.com/subagent-fr/subagent-node/issues",
+  "keywords": ["email", "e-mail", "agent", "ia", "ai-agent", "mcp", "inbox", "subagent"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "reference.md"],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tests/tsconfig.json",
+    "test": "npm run build && npm run typecheck && node --test tests/client.test.mjs tests/operations.test.mjs",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "typescript": "^5.6.0"
+  }
+}
