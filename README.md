@@ -2,7 +2,7 @@
 
 Le SDK TypeScript de **Subagent Mail** : des boîtes mail pour agents IA. Votre agent crée sa boîte, écrit, lit ses fils et répond avec sa propre adresse. Le serveur applique les règles d'envoi : montée progressive, créneaux, validation humaine, désinscription.
 
-- **Une méthode par opération du serveur** (64), aux noms des outils du MCP en camelCase, avec les mêmes arguments.
+- **Une méthode par opération du serveur** (67), aux noms des outils du MCP en camelCase, avec les mêmes arguments.
 - **Aucune dépendance** : le `fetch` de la plateforme, Node 20 ou plus.
 - **Typé** : arguments et résultats sont tirés des schémas du serveur.
 - **Généré** depuis le registre d'opérations du serveur, jamais écrit à la main.
@@ -10,7 +10,7 @@ Le SDK TypeScript de **Subagent Mail** : des boîtes mail pour agents IA. Votre 
 ## Installer
 
 ```sh
-npm install github:subagent-fr/subagent-node
+npm install subagent-mail
 ```
 
 Le paquet est un module ES : `import { Subagent } from "subagent-mail"`.
@@ -74,6 +74,7 @@ Sans `requires_approval`, le message entre en file et part dans le créneau d'en
 | Famille | Méthodes |
 | --- | --- |
 | Inscription | `signUp`, `verify`, `attachHuman` |
+| Établi MCP | `openWorkspace`, `navigateWorkspace`, `workspaceEvents` |
 | Boîtes | `inboxStatus`, `activityReport`, `listInboxes`, `createInbox`, `updateInbox`, `deleteInbox`, `requestInboxReview` |
 | Domaines | `inspectDomain`, `addDomain`, `verifyDomain`, `listDomains`, `domainQuality`, `removeDomain` |
 | Envoi | `sendEmail`, `replyToThread` |
@@ -125,7 +126,7 @@ Les refus les plus courants :
 | `idempotency_conflict` | 409 | La même `idempotency_key` a déjà servi pour un contenu différent. | Même message : réutiliser la clé telle quelle. Nouveau message : en prendre une nouvelle. |
 | `forbidden` | 403 | La clé ne porte pas la permission que l'outil demande. | Pour `approve` : le geste revient à l'humain, depuis son assistant branché à `https://api.subagent.fr/connect`. La piste le dit. |
 
-Tous les codes (84) : [`reference.md`](reference.md#erreurs), ou l'objet `CODES` du paquet.
+Tous les codes (90) : [`reference.md`](reference.md#erreurs), ou l'objet `CODES` du paquet.
 
 `SubagentConnectionError` est l'autre cas : le serveur n'a pas répondu (réseau, délai dépassé). Rien ne dit alors si l'appel a abouti.
 

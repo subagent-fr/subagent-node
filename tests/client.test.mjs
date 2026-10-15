@@ -140,7 +140,7 @@ describe("refus", () => {
   });
 
   test("chaque code du registre est connu du SDK", () => {
-    assert.equal(Object.keys(CODES).length, 84);
+    assert.equal(Object.keys(CODES).length, 90);
     for (const code of ["recipient_suppressed", "duplicate_recipient", "idempotency_conflict", "unauthorized"]) {
       assert.ok(code in CODES, code);
     }
@@ -211,6 +211,17 @@ describe("réessais", () => {
     );
     assert.equal(serveur.connexions, 1);
   });
+
+  for (const generique of [false, true]) {
+    test(`ouvrir un établi ne crée pas une deuxième instance après une panne (générique=${generique})`, async () => {
+      serveur.pannes = 1;
+      await assert.rejects(
+        () => generique ? client.call("open_workspace", {}) : client.openWorkspace(),
+        SubagentConnectionError,
+      );
+      assert.equal(serveur.connexions, 1);
+    });
+  }
 
   test("un envoi avec clé d'idempotence est réessayé", async () => {
     serveur.pannes = 1;

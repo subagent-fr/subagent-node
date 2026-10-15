@@ -8,7 +8,7 @@ import { after, before, describe, test } from "node:test";
 import { Subagent } from "../dist/index.js";
 import { CLE_HUMAIN, FauxServeur, OPERATIONS } from "./faux-serveur.mjs";
 
-describe("chaque opération du registre (64)", () => {
+describe("chaque opération du registre (67)", () => {
   let serveur;
   let client;
   before(async () => {
@@ -66,6 +66,46 @@ describe("chaque opération du registre (64)", () => {
         }),
       () => client.attachHuman({
           human_email: "marie@exemple.fr",
+        }),
+    ));
+
+  test("open_workspace", () =>
+    controler(
+      "open_workspace",
+      () => client.openWorkspace({}),
+      () => client.openWorkspace({
+          page: "audiences",
+          arguments: {},
+        }),
+    ));
+
+  test("navigate_workspace", () =>
+    controler(
+      "navigate_workspace",
+      () => client.navigateWorkspace({
+          instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812",
+          page: "audiences",
+        }),
+      () => client.navigateWorkspace({
+          instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812",
+          page: "audiences",
+          arguments: {},
+        }),
+    ));
+
+  test("workspace_events", () =>
+    controler(
+      "workspace_events",
+      () => client.workspaceEvents({
+          instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812",
+          after_sequence: 0,
+        }),
+      () => client.workspaceEvents({
+          instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812",
+          after_sequence: 0,
+          ack_sequence: 0,
+          close: false,
+          local_navigation: false,
         }),
     ));
 

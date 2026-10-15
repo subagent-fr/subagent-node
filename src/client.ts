@@ -77,6 +77,10 @@ import type {
   ListThreadsParams,
   ListThreadsResult,
   Message,
+  NavigateWorkspaceParams,
+  NavigateWorkspaceResult,
+  OpenWorkspaceParams,
+  OpenWorkspaceResult,
   PreviewCampaignParams,
   PreviewCampaignResult,
   RemoveAttachmentParams,
@@ -119,12 +123,16 @@ import type {
   VerifyDomainParams,
   VerifyParams,
   VerifyResult,
+  WorkspaceEventsParams,
+  WorkspaceEventsResult,
   WorkspaceSnapshotParams,
   WorkspaceSnapshotResult,
 } from "./types.js";
 
-// Les opérations en lecture seule : les seules qu'on rejoue sans clé d'idempotence.
+// Les lectures idempotentes : open_workspace crée une instance et ne se rejoue pas.
 const LECTURE_SEULE = new Set<string>([
+  "navigate_workspace",
+  "workspace_events",
   "inbox_status",
   "workspace_snapshot",
   "activity_report",
@@ -148,7 +156,6 @@ const LECTURE_SEULE = new Set<string>([
   "get_thread",
   "get_message",
   "list_drafts",
-  "get_attachment",
   "list_suppressions",
   "get_settings",
   "list_keys",
@@ -237,6 +244,47 @@ export class Subagent {
    */
   attachHuman(params: AttachHumanParams): Promise<AttachHumanResult> {
     return this.transport.post("attach_human", params, { rejouable: false });
+  }
+
+  /**
+   * Ouvrir Subagent.
+   *
+   * Ouvre un établi Subagent dans cette conversation. À appeler une seule fois lorsqu’aucun établi
+   * n’est ouvert. Ensuite utilisez navigate_workspace avec l’instance_id fourni par la vue :
+   * audiences, contacts, campagnes et performances changent dans le même établi. Accepte {} pour le
+   * panneau de conversation.
+   *
+   * Accès : permission send ou read ou approve ou manage_inboxes. Outil MCP et opération HTTP : `open_workspace`.
+   */
+  openWorkspace(params: OpenWorkspaceParams = {}): Promise<OpenWorkspaceResult> {
+    return this.transport.post("open_workspace", params, { rejouable: false });
+  }
+
+  /**
+   * Afficher une page dans Subagent.
+   *
+   * Pilote l’établi déjà ouvert, sans créer de carte. Reprenez l’instance_id du contexte de cette
+   * conversation. page=audiences, contacts ou campagnes ; performances avec arguments.campaign_id
+   * pour une campagne sélectionnée. Une navigation demandée peut attendre la fin d’une saisie : ne
+   * prétendez pas qu’elle est déjà affichée. Aucun envoi.
+   *
+   * Accès : permission send ou read ou approve ou manage_inboxes. Outil MCP et opération HTTP : `navigate_workspace`.
+   */
+  navigateWorkspace(params: NavigateWorkspaceParams): Promise<NavigateWorkspaceResult> {
+    return this.transport.post("navigate_workspace", params, { rejouable: true });
+  }
+
+  /**
+   * Synchroniser l’établi.
+   *
+   * Réservé à la vue : attend jusqu’à 18 secondes une navigation de cette instance. after_sequence
+   * est la dernière commande reçue ; ack_sequence la dernière appliquée. Les lectures et permissions
+   * sont revérifiées. Aucun envoi.
+   *
+   * Accès : permission send ou read ou approve ou manage_inboxes. Outil MCP et opération HTTP : `workspace_events`.
+   */
+  workspaceEvents(params: WorkspaceEventsParams): Promise<WorkspaceEventsResult> {
+    return this.transport.post("workspace_events", params, { rejouable: true });
   }
 
   /**
@@ -923,7 +971,7 @@ export class Subagent {
    * Accès : permission read. Outil MCP et opération HTTP : `get_attachment`.
    */
   getAttachment(params: GetAttachmentParams): Promise<GetAttachmentResult> {
-    return this.transport.post("get_attachment", params, { rejouable: true });
+    return this.transport.post("get_attachment", params, { rejouable: false });
   }
 
   /**

@@ -7,7 +7,7 @@
 // - SubagentConnectionError : pas de réponse exploitable du serveur (réseau, délai dépassé,
 //   mandataire). Rien ne dit si l'appel a abouti.
 
-/** Les codes que le serveur peut rendre, avec leur statut HTTP. */
+/** Statut HTTP de référence par code ; SubagentError.status porte le statut réellement reçu. */
 export const CODES = {
   access_changed: 409,
   address_taken: 409,
@@ -18,6 +18,7 @@ export const CODES = {
   audience_scope: 403,
   billing_unavailable: 503,
   campaign_changed: 409,
+  campaign_not_due: 409,
   campaign_not_editable: 409,
   campaign_not_ready: 422,
   campaign_transition: 409,
@@ -39,6 +40,8 @@ export const CODES = {
   duplicate_recipient: 409,
   encryption_unavailable: 503,
   forbidden: 403,
+  history_owner: 403,
+  history_token_conflict: 409,
   human_change_limit: 409,
   human_email_not_allowed: 422,
   idempotency_conflict: 409,
@@ -92,7 +95,10 @@ export const CODES = {
   username_taken: 409,
   webhook_too_soon: 429,
   webhooks_unavailable: 503,
+  workspace_busy: 429,
+  workspace_capacity: 429,
   workspace_changing: 409,
+  workspace_expired: 404,
 } as const;
 
 /** Un code connu de ce SDK. Le serveur peut en ajouter : `SubagentError.code` reste un `string`. */

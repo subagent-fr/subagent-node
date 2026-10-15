@@ -83,6 +83,20 @@ export interface AttachHumanResult {
   replaced?: boolean;
 }
 
+/** Rendu par open_workspace. */
+export interface OpenWorkspaceResult {
+  _navigation?: Record<string, unknown>;
+  /** Instance libérée. */
+  closed?: boolean;
+  /** Instance de cet établi. */
+  instance_id?: string;
+  sequence?: number;
+  /** pending ou superseded : navigation demandée, pas confirmation de son affichage. */
+  status?: string;
+  /** Aucune nouvelle page à appliquer. */
+  unchanged?: boolean;
+}
+
 /** Rendu par inbox_status. */
 export interface InboxStatusResult {
   /** Où en est le paiement de l’espace : standing (exempt, unpaid, paid), plan, paid_until, subscription_status (none, pending, active, past_due, canceled), last_payment (none, pending, paid, failed). null : rien à payer sur ce serveur. */
@@ -784,6 +798,12 @@ export interface CloseSpaceResult {
   scheduled?: boolean;
 }
 
+/** navigate_workspace rend le même objet que open_workspace. */
+export type NavigateWorkspaceResult = OpenWorkspaceResult;
+
+/** workspace_events rend le même objet que open_workspace. */
+export type WorkspaceEventsResult = OpenWorkspaceResult;
+
 /** save_contact rend le même objet que get_contact. */
 export type SaveContactResult = GetContactResult;
 
@@ -821,6 +841,36 @@ export interface VerifyParams {
 export interface AttachHumanParams {
   /** E-mail de la personne pour qui vous travaillez : elle reçoit le code. */
   human_email: string;
+}
+
+/** Les arguments de open_workspace. */
+export interface OpenWorkspaceParams {
+  /** Rubrique à afficher. jour par défaut. performances avec campaign_id montre les résultats de cette campagne. */
+  page?: "jour" | "valider" | "fils" | "campagnes" | "audiences" | "contacts" | "boites" | "domaines" | "blocages" | "espace" | "performances";
+  /** Arguments de lecture de la page : query pour chercher un contact, email pour sa fiche, campaign_id, audience_id, thread_id ou message_id pour ouvrir un détail. Aucun envoi. */
+  arguments?: Record<string, unknown>;
+}
+
+/** Les arguments de navigate_workspace. */
+export interface NavigateWorkspaceParams {
+  /** Identifiant de l’établi actif, fourni par son contexte. Ne jamais en inventer ni reprendre celui d’une autre conversation. */
+  instance_id: string;
+  /** Rubrique à afficher. jour par défaut. performances avec campaign_id montre les résultats de cette campagne. */
+  page: "jour" | "valider" | "fils" | "campagnes" | "audiences" | "contacts" | "boites" | "domaines" | "blocages" | "espace" | "performances";
+  /** Arguments de lecture de la page : query pour chercher un contact, email pour sa fiche, campaign_id, audience_id, thread_id ou message_id pour ouvrir un détail. Aucun envoi. */
+  arguments?: Record<string, unknown>;
+}
+
+/** Les arguments de workspace_events. */
+export interface WorkspaceEventsParams {
+  /** Instance de cet établi. */
+  instance_id: string;
+  after_sequence: number;
+  ack_sequence?: number;
+  /** Libère cette instance à la fermeture de la vue, sans attendre. */
+  close?: boolean;
+  /** Barrière de séquence après un geste de navigation local. Invalide les commandes précédentes sans relire la page. */
+  local_navigation?: boolean;
 }
 
 /** Les arguments de inbox_status. */

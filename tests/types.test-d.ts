@@ -9,6 +9,7 @@ import {
   type SignUpResult,
   type VerifyResult,
   type AttachHumanResult,
+  type OpenWorkspaceResult,
   type InboxStatusResult,
   type WorkspaceSnapshotResult,
   type ActivityReportResult,
@@ -67,6 +68,8 @@ import {
   type SetWebhookResult,
   type RemoveWebhookResult,
   type CloseSpaceResult,
+  type NavigateWorkspaceResult,
+  type WorkspaceEventsResult,
   type SaveContactResult,
   type SetContactAudiencesResult,
   type CampaignActionResult,
@@ -75,6 +78,9 @@ import {
   type SignUpParams,
   type VerifyParams,
   type AttachHumanParams,
+  type OpenWorkspaceParams,
+  type NavigateWorkspaceParams,
+  type WorkspaceEventsParams,
   type InboxStatusParams,
   type WorkspaceSnapshotParams,
   type ActivityReportParams,
@@ -148,20 +154,39 @@ export async function chaqueMethode(): Promise<void> {
     human_email: "marie@exemple.fr",
   });
   void r2;
-  const r3: InboxStatusResult = await client.inboxStatus({
-    inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
+  const r3: OpenWorkspaceResult = await client.openWorkspace({
+    page: "audiences",
+    arguments: {},
   });
   void r3;
-  const r4: WorkspaceSnapshotResult = await client.workspaceSnapshot({
-    known_revision: "r-2026-10-14-1",
+  const r4: NavigateWorkspaceResult = await client.navigateWorkspace({
+    instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812",
+    page: "audiences",
+    arguments: {},
   });
   void r4;
-  const r5: ActivityReportResult = await client.activityReport({
+  const r5: WorkspaceEventsResult = await client.workspaceEvents({
+    instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812",
+    after_sequence: 0,
+    ack_sequence: 0,
+    close: false,
+    local_navigation: false,
+  });
+  void r5;
+  const r6: InboxStatusResult = await client.inboxStatus({
+    inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
+  });
+  void r6;
+  const r7: WorkspaceSnapshotResult = await client.workspaceSnapshot({
+    known_revision: "r-2026-10-14-1",
+  });
+  void r7;
+  const r8: ActivityReportResult = await client.activityReport({
     period: "week",
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
   });
-  void r5;
-  const r6: ListEventsResult = await client.listEvents({
+  void r8;
+  const r9: ListEventsResult = await client.listEvents({
     day: "2026-10-14",
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     thread_id: "thr_0e5a7c2b9f1d48e6a3c7b5d0e2f9a814",
@@ -173,62 +198,62 @@ export async function chaqueMethode(): Promise<void> {
     cursor: "eyJhIjoiMjAyNi0xMC0xMyJ9",
     limit: 20,
   });
-  void r6;
-  const r7: BillingStatusResult = await client.billingStatus();
-  void r7;
-  const r8: SubscribeResult = await client.subscribe({
+  void r9;
+  const r10: BillingStatusResult = await client.billingStatus();
+  void r10;
+  const r11: SubscribeResult = await client.subscribe({
     plan: "mail-19",
   });
-  void r8;
-  const r9: CancelSubscriptionResult = await client.cancelSubscription();
-  void r9;
-  const r10: ListInboxesResult = await client.listInboxes({
+  void r11;
+  const r12: CancelSubscriptionResult = await client.cancelSubscription();
+  void r12;
+  const r13: ListInboxesResult = await client.listInboxes({
     cursor: "eyJhIjoiMjAyNi0xMC0xMyJ9",
     limit: 20,
   });
-  void r10;
-  const r11: Inbox = await client.createInbox({
+  void r13;
+  const r14: Inbox = await client.createInbox({
     username: "atelier-exemple",
     display_name: "Marie d’Atelier Exemple",
     domain: "agents.exemple.fr",
   });
-  void r11;
-  const r12: Inbox = await client.updateInbox({
+  void r14;
+  const r15: Inbox = await client.updateInbox({
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     display_name: "Marie d’Atelier Exemple",
   });
-  void r12;
-  const r13: DeleteInboxResult = await client.deleteInbox({
+  void r15;
+  const r16: DeleteInboxResult = await client.deleteInbox({
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     confirm: true,
   });
-  void r13;
-  const r14: RequestInboxReviewResult = await client.requestInboxReview({
+  void r16;
+  const r17: RequestInboxReviewResult = await client.requestInboxReview({
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     note: "A demandé à ne plus être contactée.",
   });
-  void r14;
-  const r15: Domain = await client.addDomain({
-    domain: "agents.exemple.fr",
-  });
-  void r15;
-  const r16: Domain = await client.verifyDomain({
-    domain: "agents.exemple.fr",
-  });
-  void r16;
-  const r17: ListDomainsResult = await client.listDomains();
   void r17;
-  const r18: DomainQualityResult = await client.domainQuality({
+  const r18: Domain = await client.addDomain({
+    domain: "agents.exemple.fr",
+  });
+  void r18;
+  const r19: Domain = await client.verifyDomain({
+    domain: "agents.exemple.fr",
+  });
+  void r19;
+  const r20: ListDomainsResult = await client.listDomains();
+  void r20;
+  const r21: DomainQualityResult = await client.domainQuality({
     domain: "agents.exemple.fr",
     days: 30,
   });
-  void r18;
-  const r19: RemoveDomainResult = await client.removeDomain({
+  void r21;
+  const r22: RemoveDomainResult = await client.removeDomain({
     domain: "agents.exemple.fr",
     confirm: true,
   });
-  void r19;
-  const r20: SendEmailResult = await client.sendEmail({
+  void r22;
+  const r23: SendEmailResult = await client.sendEmail({
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     to: "nadia.morel@exemple.com",
     subject: "Rendez-vous de jeudi",
@@ -243,8 +268,8 @@ export async function chaqueMethode(): Promise<void> {
     send_after: "2026-10-13T09:00:00+02:00",
     idempotency_key: "rdv-jeudi-nadia-morel",
   });
-  void r20;
-  const r21: ListThreadsResult = await client.listThreads({
+  void r23;
+  const r24: ListThreadsResult = await client.listThreads({
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     status: "replied",
     unanswered: true,
@@ -257,19 +282,19 @@ export async function chaqueMethode(): Promise<void> {
     cursor: "eyJhIjoiMjAyNi0xMC0xMyJ9",
     limit: 20,
   });
-  void r21;
-  const r22: ClassifyThreadResult = await client.classifyThread({
+  void r24;
+  const r25: ClassifyThreadResult = await client.classifyThread({
     thread_id: "thr_0e5a7c2b9f1d48e6a3c7b5d0e2f9a814",
     labels: ["devis"],
     archived: false,
     read: true,
   });
-  void r22;
-  const r23: InspectDomainResult = await client.inspectDomain({
+  void r25;
+  const r26: InspectDomainResult = await client.inspectDomain({
     domain: "agents.exemple.fr",
   });
-  void r23;
-  const r24: ListContactsResult = await client.listContacts({
+  void r26;
+  const r27: ListContactsResult = await client.listContacts({
     query: "exemple.com",
     label: "devis",
     audience_id: "aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26",
@@ -277,61 +302,61 @@ export async function chaqueMethode(): Promise<void> {
     offset: 0,
     limit: 20,
   });
-  void r24;
-  const r25: GetContactResult = await client.getContact({
+  void r27;
+  const r28: GetContactResult = await client.getContact({
     email: "nadia.morel@exemple.com",
   });
-  void r25;
-  const r26: SaveContactResult = await client.saveContact({
+  void r28;
+  const r29: SaveContactResult = await client.saveContact({
     email: "nadia.morel@exemple.com",
     name: "Atelier Exemple",
     fields: {"prenom": "Nadia", "societe": "Atelier Morel"},
     labels: ["devis"],
   });
-  void r26;
-  const r27: SetContactAudiencesResult = await client.setContactAudiences({
+  void r29;
+  const r30: SetContactAudiencesResult = await client.setContactAudiences({
     email: "nadia.morel@exemple.com",
     audience_ids: ["aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26"],
   });
-  void r27;
-  const r28: ListAudiencesResult = await client.listAudiences();
-  void r28;
-  const r29: ListCampaignTemplatesResult = await client.listCampaignTemplates();
-  void r29;
-  const r30: SaveCampaignTemplateResult = await client.saveCampaignTemplate({
+  void r30;
+  const r31: ListAudiencesResult = await client.listAudiences();
+  void r31;
+  const r32: ListCampaignTemplatesResult = await client.listCampaignTemplates();
+  void r32;
+  const r33: SaveCampaignTemplateResult = await client.saveCampaignTemplate({
     name: "Atelier Exemple",
     subject: "Rendez-vous de jeudi",
     text: "Bonjour Madame Morel,\n\nPouvons-nous déplacer notre rendez-vous de jeudi à vendredi, 10 h ?\n\nBien à vous,\nMarie",
     template_id: "5d1c8e2a-7b3f-4e9a-b0c6-2f4d8a1e9c37",
     html: "<p>Bonjour Madame Morel,</p><p>Pouvons-nous déplacer notre rendez-vous de jeudi à vendredi, 10 h ?</p><p>Bien à vous,<br>Marie</p>",
   });
-  void r30;
-  const r31: SaveAudienceResult = await client.saveAudience({
+  void r33;
+  const r34: SaveAudienceResult = await client.saveAudience({
     name: "Atelier Exemple",
     audience_id: "aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26",
   });
-  void r31;
-  const r32: GetAudienceResult = await client.getAudience({
+  void r34;
+  const r35: GetAudienceResult = await client.getAudience({
     audience_id: "aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26",
     offset: 0,
   });
-  void r32;
-  const r33: ImportContactsResult = await client.importContacts({
+  void r35;
+  const r36: ImportContactsResult = await client.importContacts({
     audience_id: "aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26",
     contacts: [{"email": "marc.lefevre@exemple.com", "name": "Marc Lefèvre", "fields": {"prenom": "Marc"}}],
   });
-  void r33;
-  const r34: RemoveAudienceContactResult = await client.removeAudienceContact({
+  void r36;
+  const r37: RemoveAudienceContactResult = await client.removeAudienceContact({
     audience_id: "aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26",
     email: "nadia.morel@exemple.com",
   });
-  void r34;
-  const r35: ListCampaignsResult = await client.listCampaigns({
+  void r37;
+  const r38: ListCampaignsResult = await client.listCampaigns({
     offset: 0,
     archived: false,
   });
-  void r35;
-  const r36: SaveCampaignResult = await client.saveCampaign({
+  void r38;
+  const r39: SaveCampaignResult = await client.saveCampaign({
     name: "Atelier Exemple",
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     steps: [{"variants": [{"subject": "Vos chantiers de la rentrée", "text": "Bonjour {{prenom}},\n\nUn mot sur vos chantiers.\n\n{{unsubscribe_url}}"}]}],
@@ -340,41 +365,41 @@ export async function chaqueMethode(): Promise<void> {
     audience_id: "aud_3c8f1a5e9d2b47c6a0e4f81b7d5c9e26",
     reply_to: "marie@exemple.fr",
   });
-  void r36;
-  const r37: GetCampaignResult = await client.getCampaign({
+  void r39;
+  const r40: GetCampaignResult = await client.getCampaign({
     campaign_id: "cmp_6b2d9e41c7a84f03b5e1d28a90c4f7e3",
     offset: 0,
   });
-  void r37;
-  const r38: PreviewCampaignResult = await client.previewCampaign({
+  void r40;
+  const r41: PreviewCampaignResult = await client.previewCampaign({
     campaign_id: "cmp_6b2d9e41c7a84f03b5e1d28a90c4f7e3",
     offset: 0,
   });
-  void r38;
-  const r39: CampaignActionResult = await client.campaignAction({
+  void r41;
+  const r42: CampaignActionResult = await client.campaignAction({
     campaign_id: "cmp_6b2d9e41c7a84f03b5e1d28a90c4f7e3",
     action: "pause",
     starts_at: "2026-10-20T09:00:00+02:00",
     confirm: true,
     revision: "5d41402abc4b2a76",
   });
-  void r39;
-  const r40: CampaignMetricsResult = await client.campaignMetrics({
+  void r42;
+  const r43: CampaignMetricsResult = await client.campaignMetrics({
     campaign_id: "cmp_6b2d9e41c7a84f03b5e1d28a90c4f7e3",
     offset: 0,
   });
-  void r40;
-  const r41: CampaignHistoryResult = await client.campaignHistory({
+  void r43;
+  const r44: CampaignHistoryResult = await client.campaignHistory({
     campaign_id: "cmp_6b2d9e41c7a84f03b5e1d28a90c4f7e3",
     offset: 0,
   });
-  void r41;
-  const r42: GetThreadResult = await client.getThread({
+  void r44;
+  const r45: GetThreadResult = await client.getThread({
     thread_id: "thr_0e5a7c2b9f1d48e6a3c7b5d0e2f9a814",
     cursor: "eyJhIjoiMjAyNi0xMC0xMyJ9",
   });
-  void r42;
-  const r43: ReplyToThreadResult = await client.replyToThread({
+  void r45;
+  const r46: ReplyToThreadResult = await client.replyToThread({
     thread_id: "thr_0e5a7c2b9f1d48e6a3c7b5d0e2f9a814",
     text: "Bonjour Madame Morel,\n\nPouvons-nous déplacer notre rendez-vous de jeudi à vendredi, 10 h ?\n\nBien à vous,\nMarie",
     subject: "Rendez-vous de jeudi",
@@ -387,68 +412,68 @@ export async function chaqueMethode(): Promise<void> {
     send_after: "2026-10-13T09:00:00+02:00",
     idempotency_key: "rdv-jeudi-nadia-morel",
   });
-  void r43;
-  const r44: CloseThreadResult = await client.closeThread({
+  void r46;
+  const r47: CloseThreadResult = await client.closeThread({
     thread_id: "thr_0e5a7c2b9f1d48e6a3c7b5d0e2f9a814",
   });
-  void r44;
-  const r45: GetMessageResult = await client.getMessage({
+  void r47;
+  const r48: GetMessageResult = await client.getMessage({
     message_id: "msg_7f2a91c4e8b34d0fa6c25e1b9d3f7a48",
   });
-  void r45;
-  const r46: ListDraftsResult = await client.listDrafts({
+  void r48;
+  const r49: ListDraftsResult = await client.listDrafts({
     inbox_id: "inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95",
     cursor: "eyJhIjoiMjAyNi0xMC0xMyJ9",
     limit: 20,
   });
-  void r46;
-  const r47: Message = await client.updateDraft({
+  void r49;
+  const r50: Message = await client.updateDraft({
     message_id: "msg_7f2a91c4e8b34d0fa6c25e1b9d3f7a48",
     subject: "Rendez-vous de jeudi",
     text: "Bonjour Madame Morel,\n\nPouvons-nous déplacer notre rendez-vous de jeudi à vendredi, 10 h ?\n\nBien à vous,\nMarie",
     html: "<p>Bonjour Madame Morel,</p><p>Pouvons-nous déplacer notre rendez-vous de jeudi à vendredi, 10 h ?</p><p>Bien à vous,<br>Marie</p>",
   });
-  void r47;
-  const r48: ApproveMessageResult = await client.approveMessage({
+  void r50;
+  const r51: ApproveMessageResult = await client.approveMessage({
     message_id: "msg_7f2a91c4e8b34d0fa6c25e1b9d3f7a48",
     revision: "5d41402abc4b2a76",
   });
-  void r48;
-  const r49: Message = await client.cancelMessage({
+  void r51;
+  const r52: Message = await client.cancelMessage({
     message_id: "msg_7f2a91c4e8b34d0fa6c25e1b9d3f7a48",
     reason: "Rendez-vous annulé.",
   });
-  void r49;
-  const r50: AttachFilesResult = await client.attachFiles({
+  void r52;
+  const r53: AttachFilesResult = await client.attachFiles({
     message_id: "msg_7f2a91c4e8b34d0fa6c25e1b9d3f7a48",
   });
-  void r50;
-  const r51: RemoveAttachmentResult = await client.removeAttachment({
+  void r53;
+  const r54: RemoveAttachmentResult = await client.removeAttachment({
     attachment_id: "att_5e1c9a7b3d2f40618c4e6a0b9d7f2c35",
   });
-  void r51;
-  const r52: GetAttachmentResult = await client.getAttachment({
+  void r54;
+  const r55: GetAttachmentResult = await client.getAttachment({
     attachment_id: "att_5e1c9a7b3d2f40618c4e6a0b9d7f2c35",
   });
-  void r52;
-  const r53: AddSuppressionResult = await client.addSuppression({
+  void r55;
+  const r56: AddSuppressionResult = await client.addSuppression({
     address: "nadia.morel@exemple.com",
     note: "A demandé à ne plus être contactée.",
   });
-  void r53;
-  const r54: RemoveSuppressionResult = await client.removeSuppression({
+  void r56;
+  const r57: RemoveSuppressionResult = await client.removeSuppression({
     address: "nadia.morel@exemple.com",
   });
-  void r54;
-  const r55: ListSuppressionsResult = await client.listSuppressions({
+  void r57;
+  const r58: ListSuppressionsResult = await client.listSuppressions({
     query: "exemple.com",
     cursor: "eyJhIjoiMjAyNi0xMC0xMyJ9",
     limit: 20,
   });
-  void r55;
-  const r56: GetSettingsResult = await client.getSettings();
-  void r56;
-  const r57: UpdateSettingsResult = await client.updateSettings({
+  void r58;
+  const r59: GetSettingsResult = await client.getSettings();
+  void r59;
+  const r60: UpdateSettingsResult = await client.updateSettings({
     name: "Atelier Exemple",
     postal_address: "12 rue des Lilas, 69007 Lyon",
     weekdays: "8-12,14-18",
@@ -460,32 +485,32 @@ export async function chaqueMethode(): Promise<void> {
     spacing_minutes: 20,
     dedup_days: 60,
   });
-  void r57;
-  const r58: ListKeysResult = await client.listKeys();
-  void r58;
-  const r59: CreateKeyResult = await client.createKey({
+  void r60;
+  const r61: ListKeysResult = await client.listKeys();
+  void r61;
+  const r62: CreateKeyResult = await client.createKey({
     name: "Atelier Exemple",
     permissions: ["send", "read"],
     inbox_ids: ["inb_3f9c2a7e5b1d4c8e9a0f6b2d7c4e1a95"],
     daily_cap: 50,
   });
-  void r59;
-  const r60: RevokeKeyResult = await client.revokeKey({
+  void r62;
+  const r63: RevokeKeyResult = await client.revokeKey({
     key_id: "key_5a0d8e3c9b714f26a1e47c08b3d95f62",
     confirm: true,
   });
-  void r60;
-  const r61: SetWebhookResult = await client.setWebhook({
+  void r63;
+  const r64: SetWebhookResult = await client.setWebhook({
     url: "https://exemple.fr/hooks/subagent",
   });
-  void r61;
-  const r62: RemoveWebhookResult = await client.removeWebhook();
-  void r62;
-  const r63: CloseSpaceResult = await client.closeSpace({
+  void r64;
+  const r65: RemoveWebhookResult = await client.removeWebhook();
+  void r65;
+  const r66: CloseSpaceResult = await client.closeSpace({
     confirmation_code: "482913",
     cancel: false,
   });
-  void r63;
+  void r66;
 }
 
 export async function ceQueLeCompilateurRefuse(): Promise<void> {
@@ -501,6 +526,20 @@ export async function ceQueLeCompilateurRefuse(): Promise<void> {
   await client.attachHuman({});
   // @ts-expect-error : paramètre inconnu de attach_human
   await client.attachHuman({ human_email: "marie@exemple.fr", parametre_inconnu: true });
+  // @ts-expect-error : paramètre inconnu de open_workspace
+  await client.openWorkspace({ parametre_inconnu: true });
+  // @ts-expect-error : page n’accepte que jour, valider, fils, campagnes, audiences, contacts, boites, domaines, blocages, espace, performances
+  await client.openWorkspace({ page: "valeur_inconnue" });
+  // @ts-expect-error : instance_id est obligatoire
+  await client.navigateWorkspace({});
+  // @ts-expect-error : paramètre inconnu de navigate_workspace
+  await client.navigateWorkspace({ instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812", page: "audiences", parametre_inconnu: true });
+  // @ts-expect-error : page n’accepte que jour, valider, fils, campagnes, audiences, contacts, boites, domaines, blocages, espace, performances
+  await client.navigateWorkspace({ instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812", page: "valeur_inconnue" });
+  // @ts-expect-error : instance_id est obligatoire
+  await client.workspaceEvents({});
+  // @ts-expect-error : paramètre inconnu de workspace_events
+  await client.workspaceEvents({ instance_id: "8abf26e0-f58a-4a49-8cb2-90858b2df812", after_sequence: 0, parametre_inconnu: true });
   // @ts-expect-error : paramètre inconnu de inbox_status
   await client.inboxStatus({ parametre_inconnu: true });
   // @ts-expect-error : paramètre inconnu de workspace_snapshot
